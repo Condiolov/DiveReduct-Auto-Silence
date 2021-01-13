@@ -1,0 +1,33 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=inode/directory;application/octet-stream;
+Terminal=true
+Actions=selecionados;selecdesliga;todosnormal;todosdesligar;
+X-KDE-Submenu=DiveReduct Auto Silence
+Name=Comprimir Vídeos
+
+[Desktop Action selecionados]
+Terminal=true
+Name=Reduzir selecionados
+Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
+Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F"'
+
+[Desktop Action selecdesliga]
+Terminal=true
+Name=Reduzir selecionados e DESLIGAR
+Icon=system-shutdown
+Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -d 1'
+
+[Desktop Action todosnormal]
+Terminal=true
+Name=Reduzir TODOS desta Pasta
+Icon=video-vivo
+Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F"'
+
+[Desktop Action todosdesligar]
+Terminal=true
+Name=Reduzir TODOS desta Pasta e DESLIGAR
+Icon=system-shutdown
+Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -d'
+
