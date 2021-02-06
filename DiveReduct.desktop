@@ -3,7 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=KonqPopupMenu/Plugin
 MimeType=inode/directory;application/octet-stream;
 Terminal=true
-Actions=selecionados;selecdesliga;todosnormal;todosdesligar;
+Actions=selecionados;selecdesliga;todosnormal;todosdesligar;veloz;
 X-KDE-Submenu=DiveReduct Auto Silence
 Name=Comprimir Vídeos
 
@@ -29,5 +29,10 @@ Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F"'
 Terminal=true
 Name=Reduzir TODOS desta Pasta e DESLIGAR
 Icon=system-shutdown
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -d'
+Exec=/bin/sh -c 'sudo grub-reboot 1 reboot '
 
+[Desktop Action veloz]
+Terminal=true
+Name=Reduzir com cortes
+Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
+Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -v "99999"'

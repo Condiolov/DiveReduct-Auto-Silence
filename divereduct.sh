@@ -108,7 +108,7 @@ if [ -e "./TEMP" ]
     fi
     
 
-while getopts hf:n:d:a opt; do
+while getopts hf:n:d:a:v: opt; do
         case  "${opt}" in
         h) ajuda    ;;
      
@@ -119,6 +119,8 @@ while getopts hf:n:d:a opt; do
             capa 
             ;;
         d)  d="$OPTARG" 
+            ;;
+        v)  v="$OPTARG" 
             ;;
         a)  agradecimentos ;;
         
@@ -154,7 +156,13 @@ if [ -n "${f}" ]; then
         output=$(echo "$output" | sed -r 's|, |,|g')
         output=$(echo "$output" | sed -r 's|, /|,/|g')
         todos_selecionados=(${output//;/ })
-                
+        
+       if [ -n "${v}" ]; then
+        echo -e "\n       $(tput setaf 0)$(tput setab 3)'----> Redução configurada com cortes secos!!  $(tput sgr 0 )" |& tee -a $arquivo_log
+        
+        fi 
+        
+        
         echo -e "\n$(tput setaf 0)$(tput setab 4)[$(date +%R)] -----> Total de ${#todos_selecionados[@]} arquivo(s) a ser(em) comprimido(s): $(tput sgr 0)"  |& tee -a $arquivo_log
         for i in ${!todos_selecionados[@]}; do
             echo "       $(tput setaf 0)$(tput setab 2) $((i+1)) -> ${todos_selecionados[i]} $(tput sgr 0)" |& tee -a $arquivo_log
@@ -166,15 +174,21 @@ if [ -n "${f}" ]; then
         
         for i in $output; do
             nomes_arquivo=$(echo $i | sed -e "s|${PWD}/|ok__|g")
-        
-            echo -e "\n$(tput setaf 0)$(tput setab 2)[$(date +%R)] [$nomes_arquivo] -----> Iniciando Aguarde..$(tput sgr 0)" |& tee -a $arquivo_log
+            nome_original=$(echo $i | sed -e "s|${PWD}/||g")
+            
+            
+            echo -e "\n$(tput setaf 0)$(tput setab 2)[$(date +%R)] [$nome_original] -----> Iniciando Aguarde..$(tput sgr 0)" |& tee -a $arquivo_log
+            
+             
             
             if [[ -f "$i" ]] 
                 then
                 echo "       $(tput setaf 0)$(tput setab 6)'----> Arquivo válido reduzindo...$(tput sgr 0)" |& tee -a $arquivo_log
                 SECONDS=0
-    #             sleep 1
-                python3 /home/thiago/Documentos/_imp/DiveReduct/jumpcutter.py --input_file \'$i\' --output_file \'$nomes_arquivo\' --sounded_speed 1 --silent_speed 3 --frame_margin 2 --frame_quality 1
+                 tempo_video1=$(ffmpeg -i $i 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)
+                echo -e "       $(tput setaf 0)$(tput setab 6)'----> Video Original: ${nome_original} | Duração: ${tempo_video1:0:-3} $(tput sgr 0)" |& tee -a $arquivo_log
+    
+                python3 /home/thiago/Documentos/_imp/DiveReduct/jumpcutter.py --input_file \'$i\' --output_file \'$nomes_arquivo\' --sounded_speed 1 --silent_speed $v --frame_margin 2 --frame_quality 1
                 else
                     echo -e "       $(tput setaf 0)$(tput setab 1)'----> Arquivo não existe!! $(tput sgr 0) \n" |& tee -a $arquivo_log
                     fi
@@ -182,7 +196,7 @@ if [ -n "${f}" ]; then
                     if [[ -f "$nomes_arquivo" ]] 
                         then
                         #tempo_video=$(avconv -i $nomes_arquivo 2>&1 | grep "Duration"| cut -d ' ' -f 4 | sed s/,//)
-                        tempo_video1=$(ffmpeg -i $i 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)
+                        #tempo_video1=$(ffmpeg -i $i 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)
                         tempo_video2=$(ffmpeg -i $nomes_arquivo 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)
                     
                         reducao_d=$(( $(date -d "${tempo_video1:0:-3}" "+%s") - $(date -d "${tempo_video2:0:-3}" "+%s") ))
@@ -190,7 +204,7 @@ if [ -n "${f}" ]; then
                  
                         td=$(stat -c%s "$nomes_arquivo")
                         ta=$(stat -c%s "$i")
-                        reducao_t=$(( $td*100/$ta-100))
+                        reducao_t=$((- $td*100/$ta-100))
                         tamanho_depois=$(echo "$td" | tamnhofiles)
                         tamanho_antes=$(echo "$ta" | tamnhofiles)
                     
@@ -198,7 +212,7 @@ if [ -n "${f}" ]; then
                    
                         echo "       $(tput setaf 0)$(tput setab 6)'----> ($duracao) Tempo gasto para a Redução$(tput sgr 0)" |& tee -a $arquivo_log
                         echo "       $(tput setaf 0)$(tput setab 6)'----> ($reducao_t %) Redução de tamanho em Bytes: Antes: $tamanho_antes | Depois: $tamanho_depois $(tput sgr 0)" |& tee -a $arquivo_log
-                        echo -e "       $(tput setaf 0)$(tput setab 6)'----> ($reducao_d) Redução na duração: Antes: $tempo_video1  | Depois: ${tempo_video2:0:-3} $(tput sgr 0) \n" |& tee -a $arquivo_log
+                        echo -e "       $(tput setaf 0)$(tput setab 6)'----> ($reducao_d) Redução na duração: Antes: ${tempo_video1:0:-3}  | Depois: ${tempo_video2:0:-3} $(tput sgr 0) \n" |& tee -a $arquivo_log
                         fi
                         done
                 echo -e "\n$(tput setaf 0)$(tput setab 7) Arquivos Reduzidos!! Aperte ENTER para sair!! $(tput sgr 0)" |& tee -a $arquivo_log
