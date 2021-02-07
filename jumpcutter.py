@@ -64,6 +64,8 @@ parser.add_argument('--frame_margin', type=float, default=1, help="some silent f
 parser.add_argument('--sample_rate', type=float, default=44100, help="sample rate of the input and output videos")
 parser.add_argument('--frame_rate', type=float, default=30, help="frame rate of the input and output videos. optional... I try to find it out myself, but it doesn't always work.")
 parser.add_argument('--frame_quality', type=int, default=3, help="quality of frames to be extracted from input video. 1 is highest, 31 is lowest, 3 is the default.")
+parser.add_argument('--acelerar', type=int, default=0, help="Acelera o video e o audio em 1.5 vezes sem voz de esquilo")
+
 
 args = parser.parse_args()
 
@@ -93,10 +95,15 @@ AUDIO_FADE_ENVELOPE_SIZE = 400 # smooth out transitiion's audio by quickly fadin
     
 createPath(TEMP_FOLDER)
 
-command = "ffmpeg -i "+INPUT_FILE+" -qscale:v "+str(FRAME_QUALITY)+" "+TEMP_FOLDER+"/frame%06d.jpg -hide_banner -loglevel panic  "
-subprocess.call(command, shell=True)
 
-command = "ffmpeg -i "+INPUT_FILE+" -ab 160k -ac 2 -ar "+str(SAMPLE_RATE)+" -vn "+TEMP_FOLDER+"/audio.wav -hide_banner -loglevel panic "
+if args.acelerar > 0:
+    command = "ffmpeg -i "+INPUT_FILE+" -qscale:v  "+str(FRAME_QUALITY)+" -filter:v \"setpts=0.8*PTS\" "+TEMP_FOLDER+"/frame%06d.jpg -hide_banner -loglevel panic  "
+    subprocess.call(command, shell=True)
+    command = "ffmpeg -i "+INPUT_FILE+" -ab 160k -ac 2 -ar "+str(SAMPLE_RATE)+" -filter:a \"atempo=1.25\" -vn "+TEMP_FOLDER+"/audio.wav -hide_banner -loglevel panic "   
+else:
+    command = "ffmpeg -i "+INPUT_FILE+" -qscale:v "+str(FRAME_QUALITY)+" "+TEMP_FOLDER+"/frame%06d.jpg -hide_banner -loglevel panic  "
+    subprocess.call(command, shell=True)
+    command = "ffmpeg -i "+INPUT_FILE+" -ab 160k -ac 2 -ar "+str(SAMPLE_RATE)+" -vn "+TEMP_FOLDER+"/audio.wav -hide_banner -loglevel panic "
 
 subprocess.call(command, shell=True)
 

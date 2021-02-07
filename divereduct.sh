@@ -108,7 +108,7 @@ if [ -e "./TEMP" ]
     fi
     
 
-while getopts hf:n:d:a:v: opt; do
+while getopts hf:n:d:a:v:x: opt; do
         case  "${opt}" in
         h) ajuda    ;;
      
@@ -121,6 +121,8 @@ while getopts hf:n:d:a:v: opt; do
         d)  d="$OPTARG" 
             ;;
         v)  v="$OPTARG" 
+            ;;
+        x)  x="$OPTARG" 
             ;;
         a)  agradecimentos ;;
         
@@ -159,8 +161,19 @@ if [ -n "${f}" ]; then
         
        if [ -n "${v}" ]; then
         echo -e "\n       $(tput setaf 0)$(tput setab 3)'----> Redução configurada com cortes secos!!  $(tput sgr 0 )" |& tee -a $arquivo_log
+         else
+        v="3";
+        fi  
         
+        if [ "${x}" = "2" ]; then
+            echo -e "\n       $(tput setaf 0)$(tput setab 3)'----> Aceleração Ativada em 75%  $(tput sgr 0 )" |& tee -a $arquivo_log
+              v="2";
+             x="2";
+         else
+        x="0";
+        echo -e "$x" 
         fi 
+        
         
         
         echo -e "\n$(tput setaf 0)$(tput setab 4)[$(date +%R)] -----> Total de ${#todos_selecionados[@]} arquivo(s) a ser(em) comprimido(s): $(tput sgr 0)"  |& tee -a $arquivo_log
@@ -188,7 +201,8 @@ if [ -n "${f}" ]; then
                  tempo_video1=$(ffmpeg -i $i 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)
                 echo -e "       $(tput setaf 0)$(tput setab 6)'----> Video Original: ${nome_original} | Duração: ${tempo_video1:0:-3} $(tput sgr 0)" |& tee -a $arquivo_log
     
-                python3 /home/thiago/Documentos/_imp/DiveReduct/jumpcutter.py --input_file \'$i\' --output_file \'$nomes_arquivo\' --sounded_speed 1 --silent_speed $v --frame_margin 2 --frame_quality 1
+              #echo  "python3 /home/thiago/Documentos/_imp/DiveReduct/jumpcutter.py --input_file \'$i\' --output_file \'$nomes_arquivo\' --sounded_speed 1 --silent_speed $v --frame_margin 2 --frame_quality 1 --acelerar $x"
+              python3 /home/thiago/Documentos/_imp/DiveReduct/jumpcutter.py --input_file \'$i\' --output_file \'$nomes_arquivo\' --sounded_speed 1 --silent_speed $v --frame_margin 2 --frame_quality 1 --acelerar $x
                 else
                     echo -e "       $(tput setaf 0)$(tput setab 1)'----> Arquivo não existe!! $(tput sgr 0) \n" |& tee -a $arquivo_log
                     fi
