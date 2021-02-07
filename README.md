@@ -4,9 +4,11 @@ Reduz o video removendo momentos de Silencio
   | Reduz seu video acelerando momentos de silencio e 
             | comprime o tamanho do video reduzindo a qualidade.
             | Ajuda: divereduct -h
+            
+ ![](https://github.com/Condiolov/DiveReduct-Auto-Silence/blob/main/Screenshot_20210207_081411.png)
 
 # New Features!
-
+  - Acelera o video sem a voz de esquilo antes mesmo de fazer os cortes
   - Lista de compressao
   - desligamento automatico
   - atalho pelo menu de serviço do dolpin
