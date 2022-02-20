@@ -13,7 +13,7 @@ Reduz o video removendo momentos de Silencio
   - desligamento automatico
   - atalho pelo menu de serviço do dolpin
   - usavel pelo terminal via linha de comando
-  - correçoes de bugs!
+  - correçoes de bugs!!
   - Erros nos comunique!!
 
 ### Installation
