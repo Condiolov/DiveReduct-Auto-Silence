@@ -11,41 +11,41 @@ Name=Comprimir Vídeos
 Terminal=true
 Name=Reduzir selecionados
 Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F"'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F"'
 
 [Desktop Action selecdesliga]
 Terminal=true
 Name=Reduzir selecionados e DESLIGAR
 Icon=system-shutdown
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -d 1'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -d 1'
 
 [Desktop Action todosnormal]
 Terminal=true
 Name=Reduzir TODOS desta Pasta
 Icon=video-vivo
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F"'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F"'
 
 [Desktop Action todosdesligar]
 Terminal=true
 Name=Reduzir TODOS desta PASTA e DESLIGAR
 Icon=system-shutdown
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -d 1'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -d 1'
 
 [Desktop Action veloz]
 Terminal=true
 Name=Reduzir com cortes
 Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -v "99999"'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -v "99999"'
 
 [Desktop Action acelerar]
 Terminal=true
 Name= Reduzir e Acelerar
 Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -x "2"'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -f "%F" -x "2"'
 
 
 [Desktop Action acelerardesligar]
 Terminal=true
 Name= Reduzir e Acelerar TODOS e DESLIGAR
 Icon=/usr/share/icons/oxygen/base/64x64/categories/applications-development.png
-Exec=/bin/sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -x "2" -d 1'
+Exec=sh -c '$HOME/Documentos/_imp/DiveReduct/divereduct.sh -n "%F" -x "2" -d 1'
